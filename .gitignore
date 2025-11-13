@@ -1,0 +1,43 @@
+# Python related ignores
+# See https://github.com/github/gitignore/blob/main/Python.gitignore for reference
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+venv.bak/
+ENV/
+env/
+env.bak/
+Lib/
+Scripts/
+Include/
+pyvenv.cfg
+
+# Pytest cache
+.pytest_cache/
+
+# IDE/editor configs
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Keep these project files tracked (do not ignore):
+# - project source in app/ and tests/ should be committed
