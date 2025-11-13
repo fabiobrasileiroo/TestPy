@@ -117,9 +117,3 @@ pytest -q
 # Exemplo (remover .venv):
 rm -rf .venv
 ```
-
-Se precisar, posso adicionar um `requirements.txt` inicial ou um arquivo de configuração para CI (GitHub Actions) que rode os testes automaticamente.
-
----
-
-Se quiser, eu crio também um `requirements.txt` mínimo com `pytest` e adiciono um workflow de testes no GitHub Actions.
