@@ -5,6 +5,7 @@ Este repositório contém código Python e testes. Abaixo estão instruções si
 IMPORTANTE: não versionar (commit) ambientes virtuais. Use um arquivo `requirements.txt` para listar dependências.
 
 ## Recomendação
+
 - Use `python3` / `python` (Python 3.8+) instalado no sistema.
 - Crie um virtualenv no diretório do projeto, por exemplo `.venv`.
 
@@ -107,6 +108,7 @@ pytest -q
 ---
 
 ## Notas e boas práticas
+
 - Não commit o diretório do virtualenv — já está ignorado no `.gitignore`.
 - Prefira gerenciar dependências com `requirements.txt` ou `pyproject.toml`/`poetry`.
 - Se você tiver um ambiente criado dentro do repositório e quiser removê-lo antes de commitar, faça:
