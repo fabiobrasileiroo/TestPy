@@ -1,4 +1,4 @@
-# referencia do site json to parser: https://json2csharp.com/code-converters/json-to-python
+# referencia do site json to python: https://json2csharp.com/code-converters/json-to-python
 from typing import List
 from typing import Any
 from dataclasses import dataclass
