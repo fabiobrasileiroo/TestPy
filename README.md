@@ -4,6 +4,12 @@ Este repositório contém código Python e testes. Abaixo estão instruções si
 
 IMPORTANTE: não versionar (commit) ambientes virtuais. Use um arquivo `requirements.txt` para listar dependências.
 
+## Run
+collections-fabio
+``` bash
+.venv/bin/pytest --collect-only -q tests/fabio-songs/test_get_songs.py
+```
+
 ## Recomendação
 
 - Use `python3` / `python` (Python 3.8+) instalado no sistema.
