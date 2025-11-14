@@ -42,3 +42,6 @@ Thumbs.db
 
 # Keep these project files tracked (do not ignore):
 # - project source in app/ and tests/ should be committed
+
+# Environment files (should not be committed)
+.env
