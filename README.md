@@ -10,6 +10,18 @@ collections-fabio
 .venv/bin/pytest --collect-only -q tests/fabio-songs/test_get_songs.py
 ```
 
+## Run Allure report
+verifique antes se tem o node.js instalado
+``` bash
+npm install -g allure-commandline --save-dev
+```
+
+rode o allure
+``` bash
+allure serve allure-results
+```
+
+
 ## Recomendação
 
 - Use `python3` / `python` (Python 3.8+) instalado no sistema.
