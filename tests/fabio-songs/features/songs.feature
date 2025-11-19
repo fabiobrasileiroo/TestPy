@@ -12,4 +12,3 @@ Funcionalidade: Songs API
     E a resposta deve ser um array de `JSON`
     E o array deve conter pelo menos 1 música
     E cada música deve ter os campos "id", "name", "artists", "isExplicit", "durationMs", "albumName" e "albumReleaseDate"
-  

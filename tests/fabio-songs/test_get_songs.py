@@ -80,4 +80,3 @@ def check_song_fields(response, fields):
     for song in data:
         for f in expected_fields:
             assert f in song
-
