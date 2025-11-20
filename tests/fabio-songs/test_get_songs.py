@@ -1,6 +1,6 @@
 import requests
 from pytest_bdd import scenarios, given, when, then, parsers
-from utils.print_teste import print_response_body
+# from utils.print_teste import print_response_body
 
 # from app.config import BASE_URL
 
@@ -85,13 +85,14 @@ def get_by_id(id:str):
 # def get_path_with_id(path_with_id: str):
 #     return path_with_id
 
-@when(parsers.cfparse('eu enviar uma requisição `GET` para "{path}"'), target_fixture="response")
+@when(parsers.cfparse('eu enviar uma requisição `GET` para "{path}"'), target_fixture="response_by_id")
 def send_get_request_with_id(base_url:str, path: str, id: str):
     url = base_url + path + '/' + id
     resp = requests.get(url)
     return resp
 
 @then(parsers.cfparse('o código de status da respota deve ser {status_code}'))
-def check_status_code(status_code:str):
-    assert response
+def check_status_code(status_code:str,response_by_id):
+    assert response_by_id.status_code == 200
+
 
