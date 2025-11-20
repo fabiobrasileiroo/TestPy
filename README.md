@@ -5,27 +5,87 @@ Este repositório contém código Python e testes. Abaixo estão instruções si
 IMPORTANTE: não versionar (commit) ambientes virtuais. Use um arquivo `requirements.txt` para listar dependências.
 
 ## Run
+
 collections-fabio
-``` bash
+
+```bash
 .venv/bin/pytest --collect-only -q tests/fabio-songs/test_get_songs.py
 ```
 
 ## Run Allure report
+
 verifique antes se tem o node.js instalado
-``` bash
+
+```bash
 npm install -g allure-commandline --save-dev
 ```
 
 rode o allure
-``` bash
+
+```bash
 allure serve allure-results
 ```
-
 
 ## Recomendação
 
 - Use `python3` / `python` (Python 3.8+) instalado no sistema.
-- Crie um virtualenv no diretório do projeto, por exemplo `.venv`.
+- Crie um virtualenv no diretório do projeto, por exemplo `.venv` ou use o Poentry.
+
+---
+
+## Poetry (instalação e uso)
+
+Se preferir gerenciar dependências com `poetry`, siga estes passos rápidos.
+
+- Instalar o Poetry (recomendado via `pipx`):
+
+```bash
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+pipx install poetry
+```
+
+ou usar o instalador oficial:
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+- Verificar instalação:
+
+```bash
+poetry --version
+```
+
+- Usar no projeto:
+
+```bash
+# Instala dependências listadas em pyproject.toml
+poetry install || poetry install --no-root
+
+# Adicionar uma dependência e atualizar pyproject.toml
+poetry add requests@2.32.5
+
+# Travar dependências (gera/atualiza poetry.lock)
+poetry lock
+
+# Entrar no shell do ambiente criado pelo poetry
+poetry shell
+
+# Executar um comando no ambiente (sem ativar shell)
+poetry run pytest -q
+```
+
+- Exportar `requirements.txt` (para compatibilidade com CI tradicionais):
+
+```bash
+poetry export -f requirements.txt --output requirements.txt --without-hashes
+```
+
+Notas:
+
+- O `poetry` gerencia virtualenvs automaticamente — não é obrigatório criar `.venv` manualmente.
+- O projeto já inclui `pyproject.toml`; se quiser instalar dependências replicando o estado atual, rode `poetry install`.
 
 ---
 
@@ -66,7 +126,6 @@ pytest -q
 pip freeze > requirements.txt
 ```
 
----
 
 ## Windows (PowerShell)
 
