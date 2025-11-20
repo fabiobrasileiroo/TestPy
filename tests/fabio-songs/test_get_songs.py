@@ -24,7 +24,7 @@ def endpoint(path: str):
 # Cenários
 # ========
 
-# Listar todas as músicas
+# 1.Listar todas as músicas
 
 @when(parsers.cfparse('eu enviar uma requisição `GET` para "{path}"'), target_fixture="response")
 def send_get_request(base_url:str, path: str):
@@ -73,3 +73,17 @@ def check_song_fields(response, fields):
         for f in expected_fields:
             print('aqui:', f, song)
             assert f in song
+
+
+# 2. Listar música por ID
+
+@given(parsers.cfparse('que existe uma música com id "{id}"'),target_fixture="id")
+def get_by_id(id:str):
+   return id 
+
+@when(parsers.cfparse('eu enviar uma requisição `GET` para "{path_with_id}"'),target_fixture="path_with_id")
+def get_path_with_id(path_with_id: str):
+    return path_with_id
+
+
+@then(parsers.cfparse('o código de status da respota deve ser 200'))

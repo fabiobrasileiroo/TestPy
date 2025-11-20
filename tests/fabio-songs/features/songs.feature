@@ -38,6 +38,8 @@ Funcionalidade: Songs API
       | durationMs        | 175459              |
       | albumName         | Espresso            |
       | albumReleaseDate  | 2024-04-12          |
+    Quando eu enviar a data do "albumReleaseDate" e for maior que a data atual
+    Então deve retornar um erro com status 400 informando que o valor maior que data atual não permitido
 
   # 3. Atualizar música – PUT /api/songs/{id}
   Cenário: Atualizar música com um id existente
