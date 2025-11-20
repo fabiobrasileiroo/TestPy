@@ -81,9 +81,17 @@ def check_song_fields(response, fields):
 def get_by_id(id:str):
    return id 
 
-@when(parsers.cfparse('eu enviar uma requisição `GET` para "{path_with_id}"'),target_fixture="path_with_id")
-def get_path_with_id(path_with_id: str):
-    return path_with_id
+# @when(parsers.cfparse('eu enviar uma requisição `GET` para "{path_with_id}"'),target_fixture="path_with_id")
+# def get_path_with_id(path_with_id: str):
+#     return path_with_id
 
+@when(parsers.cfparse('eu enviar uma requisição `GET` para "{path}"'), target_fixture="response")
+def send_get_request_with_id(base_url:str, path: str, id: str):
+    url = base_url + path + '/' + id
+    resp = requests.get(url)
+    return resp
 
-@then(parsers.cfparse('o código de status da respota deve ser 200'))
+@then(parsers.cfparse('o código de status da respota deve ser {status_code}'))
+def check_status_code(status_code:str):
+    assert response
+

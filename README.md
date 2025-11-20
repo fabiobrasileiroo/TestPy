@@ -1,43 +1,46 @@
-# TestPy — Como criar o ambiente (Linux & Windows)
+# TestPy — Configurando o Ambiente (Linux e Windows)
 
-Este repositório contém código Python e testes. Abaixo estão instruções simples para criar um ambiente virtual, instalar dependências e executar os testes tanto em Linux (bash) quanto em Windows (PowerShell / cmd).
+Este repositório contém alguns códigos Python e testes para atividade da facul. Aqui está um guia simples para configurar um ambiente virtual, instalar dependências e executar testes no Linux (bash) ou Windows (PowerShell/cmd).
 
-IMPORTANTE: não versionar (commit) ambientes virtuais. Use um arquivo `requirements.txt` para listar dependências.
+Ponto chave: Não faça commit de ambientes virtuais. Use um arquivo `requirements.txt` para listar suas dependências.
 
-## Run
+## Execução Rápida
 
-collections-fabio
+Para collections-fabio:
 
 ```bash
 .venv/bin/pytest --collect-only -q tests/fabio-songs/test_get_songs.py
 ```
 
-## Run Allure report
 
-verifique antes se tem o node.js instalado
+## Relatório Allure
+
+Primeiro, certifique-se de que o Node.js está instalado ou se já tem o allure no sistema operacional.
+
+Instale o Allure:
 
 ```bash
 npm install -g allure-commandline --save-dev
 ```
 
-rode o allure
+Em seguida, execute o relatório:
 
 ```bash
 allure serve allure-results
 ```
 
-## Recomendação
+## Dicas
 
-- Use `python3` / `python` (Python 3.8+) instalado no sistema.
-- Crie um virtualenv no diretório do projeto, por exemplo `.venv` ou use o Poentry.
+- Certifique-se de ter o Python 3.8+ instalado (use `python3` ou `python`).
+- Crie um virtualenv na pasta do projeto, como `.venv`, ou tente o Poetry se preferir.
 
 ---
 
-## Poetry (instalação e uso)
+## Usando Poetry
 
-Se preferir gerenciar dependências com `poetry`, siga estes passos rápidos.
+Se o Poetry parecer bom para você gerenciar suas dependências, aqui está como começar.
 
-- Instalar o Poetry (recomendado via `pipx`):
+- Instale o Poetry (pipx é uma boa maneira):
 
 ```bash
 python3 -m pip install --user pipx
@@ -45,38 +48,38 @@ python3 -m pipx ensurepath
 pipx install poetry
 ```
 
-ou usar o instalador oficial:
+Ou use o instalador oficial:
 
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-- Verificar instalação:
+- Verifique se está instalado:
 
 ```bash
 poetry --version
 ```
 
-- Usar no projeto:
+- Trabalhando com o projeto:
 
 ```bash
-# Instala dependências listadas em pyproject.toml
-poetry install || poetry install --no-root
+# Instalar dependências do pyproject.toml
+poetry install || poetry install --no-root # caso seu linux reclame rode --no-root, o meu reclamou ;(
 
 # Adicionar uma dependência e atualizar pyproject.toml
 poetry add requests@2.32.5
 
-# Travar dependências (gera/atualiza poetry.lock)
+# Bloquear dependências (atualiza poetry.lock)
 poetry lock
 
-# Entrar no shell do ambiente criado pelo poetry
+# Entrar no shell do Poetry
 poetry shell
 
-# Executar um comando no ambiente (sem ativar shell)
+# Executar um comando no ambiente
 poetry run pytest -q
 ```
 
-- Exportar `requirements.txt` (para compatibilidade com CI tradicionais):
+- Exportar para `requirements.txt` para CI:
 
 ```bash
 poetry export -f requirements.txt --output requirements.txt --without-hashes
@@ -84,66 +87,65 @@ poetry export -f requirements.txt --output requirements.txt --without-hashes
 
 Notas:
 
-- O `poetry` gerencia virtualenvs automaticamente — não é obrigatório criar `.venv` manualmente.
-- O projeto já inclui `pyproject.toml`; se quiser instalar dependências replicando o estado atual, rode `poetry install`.
+- O Poetry gerencia virtualenvs para você — não há necessidade de criar `.venv` manualmente.
+- O projeto já tem `pyproject.toml`, então apenas execute `poetry install` para corresponder à configuração atual.
 
 ---
 
 ## Linux / macOS (bash)
 
-1. Criar o virtualenv:
+1. Crie o virtualenv:
 
 ```bash
 python3 -m venv .venv
 ```
 
-2. Ativar o virtualenv:
+2. Ative-o:
 
 ```bash
 source .venv/bin/activate
 ```
 
-3. Atualizar pip e instalar dependências (se tiver `requirements.txt`):
+3. Atualize o pip e instale dependências (se você tiver `requirements.txt`):
 
 ```bash
 python -m pip install --upgrade pip
-# Se existir requirements.txt
+# Se requirements.txt existir
 pip install -r requirements.txt
 
-# Caso não exista, instale o pytest para rodar os testes
+# Caso contrário, apenas instale pytest para testes
 pip install pytest
 ```
 
-4. Rodar os testes:
+4. Execute testes:
 
 ```bash
 pytest -q
 ```
 
-5. Gerar um `requirements.txt` opcional (após instalar libs usadas no projeto):
+5. Opcionalmente, gere `requirements.txt` após instalar suas bibliotecas:
 
 ```bash
 pip freeze > requirements.txt
 ```
 
-
 ## Windows (PowerShell)
 
-1. Criar o virtualenv:
+1. Crie o virtualenv:
 
 ```powershell
 python -m venv .venv
 ```
 
-2. Ativar (PowerShell):
+2. Ative no PowerShell:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
-# Se sua política de execução impedir, você pode executar (Administrador):
+# Se a política de execução bloquear, execute como admin:
 # Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-3. Atualizar pip e instalar dependências:
+3. Atualize pip e instale deps:
 
 ```powershell
 python -m pip install --upgrade pip
@@ -151,7 +153,7 @@ pip install -r requirements.txt
 pip install pytest
 ```
 
-4. Rodar os testes:
+4. Execute testes:
 
 ```powershell
 pytest -q
@@ -161,19 +163,19 @@ pytest -q
 
 ## Windows (cmd)
 
-1. Criar o virtualenv:
+1. Crie o virtualenv:
 
 ```cmd
 python -m venv .venv
 ```
 
-2. Ativar (cmd):
+2. Ative no cmd:
 
 ```cmd
 .venv\Scripts\activate.bat
 ```
 
-3. Instalar deps e rodar testes (como acima):
+3. Instale deps e execute testes (mesmo que acima):
 
 ```cmd
 python -m pip install --upgrade pip
@@ -184,13 +186,14 @@ pytest -q
 
 ---
 
-## Notas e boas práticas
+## Notas e Melhores Práticas
 
-- Não commit o diretório do virtualenv — já está ignorado no `.gitignore`.
-- Prefira gerenciar dependências com `requirements.txt` ou `pyproject.toml`/`poetry`.
-- Se você tiver um ambiente criado dentro do repositório e quiser removê-lo antes de commitar, faça:
+- Não faça commit da pasta virtualenv — ela já está em `.gitignore`.
+- Use `requirements.txt` ou `pyproject.toml`/`poetry` para dependências.
+- Se precisar remover um ambiente existente antes de fazer commit:
 
 ```bash
-# Exemplo (remover .venv):
+# Exemplo: remover .venv
 rm -rf .venv
 ```
+
