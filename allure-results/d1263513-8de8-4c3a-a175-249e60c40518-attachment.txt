@@ -1,6 +1,0 @@
-PATCH Atualizar Parcial:
-Status: 200
-Novo título: Apenas o título foi modificado
-Corpo (inalterado): quia et suscipit
-suscipit recu...
---------------------------------------------------

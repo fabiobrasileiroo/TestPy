@@ -1,5 +1,0 @@
-GET Todos os Artigos:
-Status: 200
-Quantidade: 100 artigos
-Primeiro artigo: sunt aut facere repellat provident occaecati excep...
---------------------------------------------------

@@ -1,0 +1,8 @@
+campo,valor
+id,1
+name,New Espresso
+artists,"""New Artist"""
+isExplicit,false
+durationMs,180000
+albumName,New espresso
+albumReleaseDate,2025-01-01

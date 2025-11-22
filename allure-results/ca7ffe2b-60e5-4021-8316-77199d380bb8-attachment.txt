@@ -1,7 +1,0 @@
-POST Criar Artigo:
-Status: 201
-ID do novo artigo: 101
-Título: Meu Novo Artigo
-Corpo: Conteúdo do meu artigo de test...
-Autor: 1
---------------------------------------------------

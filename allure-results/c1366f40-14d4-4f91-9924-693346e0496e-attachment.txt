@@ -1,5 +1,0 @@
-DELETE Excluir Artigo:
-Status: 200
-Resposta: {}
-Artigo excluído com sucesso!
---------------------------------------------------

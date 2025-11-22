@@ -12,10 +12,9 @@ Para collections-fabio:
 .venv/bin/pytest --collect-only -q tests/fabio-songs/test_get_songs.py
 ```
 
-
 ## Relatório Allure
 
-Primeiro, certifique-se de que o Node.js está instalado ou se já tem o allure no sistema operacional.
+### Localmente
 
 Instale o Allure:
 
@@ -25,9 +24,31 @@ npm install -g allure-commandline --save-dev
 
 Em seguida, execute o relatório:
 
+``` bash
+python -m pytest --alluredir allure-results
+``` 
+ou 
+``` 
+python -m pytest --alluredir=allure-results tests/ -v
+``` 
+
 ```bash
 allure serve allure-results
 ```
+
+O relatório será aberto automaticamente no navegador (exceto em alguns ambientes Linux).
+
+### GitHub Actions
+
+O projeto inclui workflows automatizados do GitHub Actions:
+
+- **`test.yml`**: Executa os testes com Allure em cada push/PR e faz upload dos resultados como artefatos
+- **`ci.yml`**: Executa os testes e publica o relatório Allure na branch `main` (pasta `docs/`)
+
+Para visualizar o relatório no GitHub:
+1. Vá para a aba "Actions" do repositório
+2. Clique no workflow executado
+3. Baixe o artefato "allure-results" ou veja o relatório publicado em `docs/`
 
 ## Dicas
 
@@ -181,7 +202,7 @@ python -m venv .venv
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 pip install pytest
-pytest -q
+pytest -qll
 ```
 
 ---
