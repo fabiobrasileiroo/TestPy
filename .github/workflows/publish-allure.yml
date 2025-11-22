@@ -49,18 +49,14 @@ jobs:
           mkdir -p allure-report
           allure generate ./allure-results -o ./allure-report --clean
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload report to Pages artifact
-        # usar v2 para evitar dependência em actions/upload-artifact@v3 (deprecado)
-        uses: actions/upload-pages-artifact@v2
+      - name: Deploy to GitHub Pages (push to gh-pages)
+        # Substitui configure-pages/upload-pages-artifact/deploy-pages por uma ação que
+        # faz push direto para o branch gh-pages, evitando dependências deprecated.
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          path: ./allure-report
-
-  deploy:
-    needs: build-and-publish
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
+          # força criação/substituição do conteúdo no branch gh-pages
+          force_orphan: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
