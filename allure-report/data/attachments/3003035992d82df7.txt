@@ -1,0 +1,5 @@
+PUT Atualizar Artigo:
+Status: 200
+Título após update: Título Atualizado
+Corpo após update: Conteúdo completamente atualiz...
+--------------------------------------------------

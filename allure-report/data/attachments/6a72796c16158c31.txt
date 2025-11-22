@@ -1,0 +1,6 @@
+GET Artigo Específico:
+Status: 200
+ID: 1
+Título: sunt aut facere repellat provident occaecati excepturi optio reprehenderit
+Autor (userId): 1
+--------------------------------------------------
