@@ -1,0 +1,66 @@
+name: Run tests and publish Allure report
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run tests (pytest -> allure-results)
+        run: |
+          # Ajuste este comando se você usar outra ferramenta/test runner
+          pytest -q --maxfail=1 --disable-warnings --alluredir=allure-results
+
+      - name: Install Java (Allure requirement)
+        run: sudo apt-get update && sudo apt-get install -y default-jre
+
+      - name: Install Allure CLI
+        run: |
+          # Versão fixa para maior previsibilidade; adapte se necessário
+          ALLURE_VER=2.22.0
+          wget https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/$ALLURE_VER/allure-commandline-$ALLURE_VER.tgz
+          tar -xzf allure-commandline-$ALLURE_VER.tgz -C /tmp
+          echo "/tmp/allure-$ALLURE_VER/bin" >> $GITHUB_PATH
+          allure --version
+
+      - name: Generate Allure report
+        run: |
+          # Gera o HTML em ./allure-report
+          mkdir -p allure-report
+          allure generate ./allure-results -o ./allure-report --clean
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload report to Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./allure-report
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
