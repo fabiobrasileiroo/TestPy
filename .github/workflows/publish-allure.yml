@@ -20,7 +20,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          # Projeto declara requires-python >=3.12; use 3.12 em CI
+          python-version: "3.12"
 
       - name: Install dependencies
         run: |
@@ -30,7 +31,7 @@ jobs:
       - name: Run tests (generate allure-results)
         run: |
           # Ajuste o comando abaixo se necessário
-          pytest -q --maxfail=1 --disable-warnings --alluredir=allure-results || true
+          pytest -q --maxfail=1 --disable-warnings --alluredir=allure-results
 
       - name: Install Java (Allure requirement)
         run: sudo apt-get update && sudo apt-get install -y default-jre
@@ -52,7 +53,8 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Upload report to Pages artifact
-        uses: actions/upload-pages-artifact@v1
+        # usar v2 para evitar dependência em actions/upload-artifact@v3 (deprecado)
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ./allure-report
 
