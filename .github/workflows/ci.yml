@@ -74,7 +74,7 @@ jobs:
           ALLURE_VER=2.22.0
           wget https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/$ALLURE_VER/allure-commandline-$ALLURE_VER.tgz
           tar -xzf allure-commandline-$ALLURE_VER.tgz -C /tmp
-          echo "/tmp/allure-$ALLURE_VER/bin" >> $GITHUB_PATH
+          sudo ln -s /tmp/allure-$ALLURE_VER/bin/allure /usr/local/bin/allure
           allure --version
 
       - name: Generate Allure report
