@@ -1,43 +1,40 @@
 import requests
+import json
 from pytest_bdd import scenarios, given, when, then, parsers
 
-scenarios("features/movies.feature")
+scenarios("features/movies_get.feature")
 
-@given(parsers.cfparse('Endpoint dos filmes:"{path}"'))
-def endpoint(path:str) -> str:
+# Step: Dado o endpoint
+@given(parsers.cfparse('o endpoint: "{path}"'))
+def endpoint(path: str) -> str:
     return path
 
-def extract_datas(respose):
-    data = respose.json()
+# Função auxiliar para extrair dados
+def extract_datas(response):
+    data = response.json()
     if isinstance(data, dict) and "data" in data and isinstance(data["data"], list):
         return data["data"]
     return data
 
-@when(parsers.cfparse('Enviar uma requisição `GET` para "{path}"'))
-def request_api(path:str) -> str:
-    url = path
-    response = requests.get(url)
+# Step: Quando realizar a requisição GET
+@when(parsers.cfparse('realizar a requisição GET no: "{path}"'),
+      target_fixture="response")
+def request_api(path: str):
+    response = requests.get(path)
     return response
 
-@then(parsers.cfparse('O código de status da resposta deve ser {status_code:d}'))
-def check_status_code(response,status_code):
-     assert response.status_code == status_code
+# Step: Então o código de status da resposta deve ser X
+@then(parsers.cfparse('o código de status da resposta deve ser {status_code:d}'))
+def check_status_code(response, status_code):
+    assert response.status_code == status_code
 
-
-@then(parsers.cfparse('O array não pode estar zerado'))
-def check_null_array(response):
+# Step: Cada filme deve ter os campos
+@then(parsers.cfparse('cada filme deve ter os campos "{fields}"'))
+def check_movie_labels(response, fields):
+    # separa os campos por vírgula
+    expected_labels = [f.strip().strip('"') for f in fields.split(',') if f.strip()]
     data = extract_datas(response)
-    assert isinstance(data, list)
-    assert len(data) != 0
-
-@then(parsers.cfparse('Cada filme deve ter os campos "{fields}"'))
-def check_movie_labels(respose,labels):
-    labels_clean = labels.replace(' e ', ',')
-    expected_labels = [f.strip().strip('"') for f in labels_clean.split(',') if f.strip()]
-    print('expected_fields:', expected_labels)
-    data = extract_datas(respose)
     assert isinstance(data, list) and data
-    for song in data:
+    for movie in data:
         for f in expected_labels:
-            print('aqui:', f, song)
-            assert f in song
+            assert f in movie
