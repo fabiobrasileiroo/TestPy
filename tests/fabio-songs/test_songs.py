@@ -1,6 +1,11 @@
 import requests
 from pytest_bdd import scenarios, given, when, then, parsers
-# import pytest
+#import pytest
+import allure
+
+# Define suite/owner para Allure - faz o relatório mostrar a pessoa (ex: Fabio)
+allure.dynamic.suite("Fabio - Songs")
+allure.dynamic.label("owner", "fabio")
 
 scenarios("features/songs.feature")
 
