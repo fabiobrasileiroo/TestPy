@@ -1,12 +1,9 @@
 import requests
 from pytest_bdd import scenarios, given, when, then, parsers
-#import pytest
-import allure
+# import pytest
 
-# Define suite/owner para Allure - faz o relatório mostrar a pessoa (ex: Fabio)
-allure.dynamic.suite("Fabio - Songs")
-allure.dynamic.label("owner", "fabio")
-
+# Não chamar allure.dynamic no nível do módulo (provoca erro na coleta).
+# O `tests/conftest.py` faz a marcação no tempo de execução dos testes.
 scenarios("features/songs.feature")
 
 # Contexto
