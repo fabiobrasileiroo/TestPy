@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write  # Necessário para fazer push
   pages: write
   id-token: write
 
@@ -56,9 +56,14 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    permissions:
+      contents: write  # Necessário para commit e push
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # Necessário para histórico completo
 
       - name: Download test results
         uses: actions/download-artifact@v4
@@ -92,5 +97,5 @@ jobs:
         with:
           add: docs
           message: "Update Allure report [skip ci]"
-          new_branch: main
+          default_author: github_actions
           push: true
