@@ -12,7 +12,6 @@ MarkupSafe==3.0.3
 packaging==25.0
 parse==1.20.2
 parse_type==0.6.6
-pkg_resources==0.0.0
 pluggy==1.6.0
 Pygments==2.19.2
 pytest==8.4.2
