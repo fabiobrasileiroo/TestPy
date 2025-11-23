@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # Necessário para fazer push
+  contents: write # Necessário para fazer push
   pages: write
   id-token: write
 
@@ -57,13 +57,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     permissions:
-      contents: write  # Necessário para commit e push
+      contents: write # Necessário para commit e push
+      pages: write    # Necessário para deploy do GitHub Pages
+      id-token: write # Necessário para autenticação do Pages
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0  # Necessário para histórico completo
+          fetch-depth: 0 # Necessário para histórico completo
 
       - name: Download test results
         uses: actions/download-artifact@v4
@@ -85,17 +87,17 @@ jobs:
       - name: Generate Allure report
         run: |
           if [ -d "./allure-results" ] && [ "$(ls -A ./allure-results)" ]; then
-            mkdir -p docs
-            allure generate ./allure-results -o ./docs --clean
+            allure generate ./allure-results -o ./allure-report --clean
           else
             echo "No allure-results found, skipping report generation"
             exit 1
           fi
 
-      - name: Commit and push report to main (docs folder)
-        uses: EndBug/add-and-commit@v9
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          add: docs
-          message: "Update Allure report [skip ci]"
-          default_author: github_actions
-          push: true
+          path: ./allure-report
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
