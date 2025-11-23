@@ -145,7 +145,7 @@ pytest -q
 ```
 
 5. Opcionalmente, gere `requirements.txt` após instalar suas bibliotecas:
-
+192.168.100.11
 ```bash
 pip freeze > requirements.txt
 ```

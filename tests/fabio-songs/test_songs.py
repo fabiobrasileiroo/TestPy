@@ -7,17 +7,17 @@ scenarios("features/songs.feature")
 # Contexto
 # ========
 @given(parsers.cfparse('que a url base da API é "{base_url}"'), target_fixture="base_url")
-def base_url(base_url: str):
+def base_url(base_url: str) -> str:
     return base_url
 
 # E
 @given(parsers.cfparse('que o endpoint para listar músicas é "{path}"'), target_fixture="path")
-def endpoint(path: str):
+def endpoint(path: str) -> str:
     return path
 
 # vem do 2.
 @given(parsers.cfparse('que existe uma música com id "{id}"'),target_fixture="id")
-def get_by_id(id:str):
+def get_by_id(id:str) -> str:
    return id 
 
 
@@ -46,8 +46,8 @@ def send_get_request_with_id(base_url:str, path: str, id: str):
 
 @when(parsers.cfparse('eu enviar uma requisição `PUT` para "{path}/{id}" com o seguinte corpo:'), target_fixture="response")
 def send_put_request(base_url: str, path: str, id: str):
-    # Hardcoded body based on feature file
-    # TODO: Find better way to access docstring in pytest-bdd 8.x
+    # Corpo fixo baseado no arquivo de recursos
+    # TODO: Encontrar uma maneira melhor de acessar a docstring no pytest-bdd 8.x
     body = {
         "name": "New Espresso",
         "artists": "New Artist",
@@ -64,8 +64,8 @@ def send_put_request(base_url: str, path: str, id: str):
 
 @when(parsers.cfparse('eu enviar uma requisição `POST` para "{path}" com o seguinte corpo:'), target_fixture="response")
 def send_post_request(base_url: str, path: str):
-    # Hardcoded body based on feature file
-    # TODO: Find better way to access docstring in pytest-bdd 8.x
+    # Corpo fixo baseado no arquivo de recursos
+    # TODO: Encontrar uma maneira melhor de acessar a docstring no pytest-bdd 8.x
     body = {
         "name": "foooName",
         "artists": "fooArtist",
@@ -87,7 +87,8 @@ def send_delete_request(base_url: str, path: str, id: str):
     return resp
 
 
-# Helper functions
+#===================
+# Funções auxiliares
 def _extract_list_from_response(response):
     data = response.json()
     print('isinstance? ', isinstance(data, dict))
@@ -124,7 +125,8 @@ def _datatable_to_dict(datatable):
     return result
 
 
-# Then steps
+# Em seguida, passos de verificação (Then)
+# ====================================================
 
 @then(parsers.cfparse('o código de status da resposta deve ser {status_code:d}'))
 def check_status_code(status_code: int, response):
@@ -178,7 +180,6 @@ def check_object_fields(response, fields):
 
 @then(parsers.cfparse('o objeto deve os campos "{fields}"'))
 def check_object_fields_typo(response, fields):
-    # This handles the typo in the feature file "o objeto deve os campos" instead of "o objeto deve ter os campos"
     fields_clean = fields.replace(' e ', ',')
     expected_fields = [f.strip().strip('"') for f in fields_clean.split(',') if f.strip()]
     data = _extract_object_from_response(response)
@@ -189,7 +190,7 @@ def check_object_fields_typo(response, fields):
 @then('a resposta deve ser um objeto com os seguintes valores:')
 def check_object_values(response, datatable):
     data = _extract_object_from_response(response)
-    # Convert datatable to dict
+    # Converter tabela para lista de dicionários
     rows = _datatable_to_dict(datatable)
     
     for row in rows:
@@ -197,7 +198,7 @@ def check_object_values(response, datatable):
         valor = row['valor']
         actual_value = data.get(campo)
         
-        # Compare based on actual_value type
+        # Comparar com base no tipo de actual_value
         if isinstance(actual_value, bool):
             expected_bool = valor.lower() in ['true', '1', 'yes']
             assert actual_value == expected_bool, f"Campo {campo}: esperado {expected_bool}, obtido {actual_value}"
@@ -205,7 +206,7 @@ def check_object_values(response, datatable):
             expected_int = int(valor)
             assert actual_value == expected_int, f"Campo {campo}: esperado {expected_int}, obtido {actual_value}"
         else:
-            # String comparison (remove quotes if present)
+            # Comparação de string (remover aspas se presentes)
             expected_str = valor.strip('"')
             assert str(actual_value) == expected_str, f"Campo {campo}: esperado '{expected_str}', obtido '{actual_value}'"
 
@@ -227,7 +228,7 @@ def check_object_value(response, datatable):
 def check_response_contains_song(response, datatable):
     data = _extract_list_from_response(response)
     assert isinstance(data, list) and data
-    song = data[0]  # assuming the first one
+    song = data[0]  #  Supondo o primeiro
     
     rows = _datatable_to_dict(datatable)
     
@@ -236,7 +237,7 @@ def check_response_contains_song(response, datatable):
         valor = row['valor']
         actual_value = song.get(campo)
         
-        # Compare based on actual_value type
+        # Comparar com base no tipo de actual_value
         if isinstance(actual_value, bool):
             expected_bool = valor.lower() in ['true', '1', 'yes']
             assert actual_value == expected_bool, f"Campo {campo}: esperado {expected_bool}, obtido {actual_value}"
@@ -244,7 +245,7 @@ def check_response_contains_song(response, datatable):
             expected_int = int(valor)
             assert actual_value == expected_int, f"Campo {campo}: esperado {expected_int}, obtido {actual_value}"
         else:
-            # String comparison (remove quotes if present)
+            # Comparação de string (remover aspas se presentes)
             expected_str = valor.strip('"')
             assert str(actual_value) == expected_str, f"Campo {campo}: esperado '{expected_str}', obtido '{actual_value}'"
 
