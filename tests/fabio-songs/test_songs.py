@@ -2,8 +2,6 @@ import requests
 from pytest_bdd import scenarios, given, when, then, parsers
 # import pytest
 
-# Não chamar allure.dynamic no nível do módulo (provoca erro na coleta).
-# O `tests/conftest.py` faz a marcação no tempo de execução dos testes.
 scenarios("features/songs.feature")
 
 # Contexto
