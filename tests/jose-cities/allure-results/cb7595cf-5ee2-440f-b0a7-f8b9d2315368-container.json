@@ -1,0 +1,1 @@
+{"uuid": "077c1ad9-09c5-4cae-82ce-b9ddc68c1310", "befores": [{"name": "pytestbdd_stepdef_when_eu enviar uma requisição `DELETE` para \"{path}/{city_id}\"", "status": "passed", "start": 1764026802235, "stop": 1764026802235}], "start": 1764026802235, "stop": 1764026803028}

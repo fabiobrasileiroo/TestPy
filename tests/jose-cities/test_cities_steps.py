@@ -1,6 +1,13 @@
 import requests
 from pytest_bdd import scenarios, given, parsers, when, then
 
+# importa allure
+import allure
+
+allure.dynamic.suite("Jose - Cities")
+allure.dynamic.label("owner", "jose")
+
+
 scenarios("features/cities.feature")
 
 # ====================================================

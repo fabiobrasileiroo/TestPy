@@ -1,0 +1,1 @@
+{"uuid": "e0092f7b-5fa1-47d2-982f-343ab311fa89", "befores": [{"name": "pytestbdd_stepdef_when_eu enviar uma requisição `PUT` para \"{path}/{city_id}\" com o seguinte corpo:", "status": "passed", "start": 1764026798985, "stop": 1764026798985}], "start": 1764026798985, "stop": 1764026799797}

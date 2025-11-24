@@ -1,5 +1,5 @@
 
-Feature: Cidades API
+Feature: Cidades API - José Roberto
 
   Scenario: 1. Criar uma nova cidade
     Given que a url base da API é "https://fooapi.com"
