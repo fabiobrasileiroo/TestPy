@@ -1,4 +1,4 @@
-Feature: Testar API de cidades do FooAPI
+Feature: Cities API - José
 
   Scenario: Listar todas as cidades
     Given que a url base da API é "https://fooapi.com"

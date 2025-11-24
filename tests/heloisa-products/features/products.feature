@@ -1,5 +1,5 @@
 # language: pt
-Funcionalidade: Products API
+Funcionalidade: Products API - Heloisa
 
   Contexto:
     Dado que a url base da API é "https://fooapi.com"
