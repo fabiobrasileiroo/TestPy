@@ -1,0 +1,2 @@
+URL: https://fooapi.com/api/cities/BR
+Response: {"data":{"id":"BR","type":"Feature","geometry":{"type":"Point","coordinates":[-47.55,-15.47]},"properties":{"city":"Brasilia","country":"Brazil","iso2":"BR","iso3":"BRA","tld":"br"}}}
