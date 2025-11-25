@@ -1,5 +1,5 @@
 # language: pt
-Funcionalidade: Movies API
+Funcionalidade: Movies API - Davi
   Como usuário da API de filmes
   Quero realizar operações de CRUD
   Para garantir que os endpoints funcionam corretamente
