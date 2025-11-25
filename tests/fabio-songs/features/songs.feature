@@ -1,5 +1,13 @@
 # language: pt
 Funcionalidade: Songs API - Fábio
+  Como "usuário" da API de músicas
+  Quero realizar operações de "CRUD"
+  Para garantir que os endpoints funcionam corretamente
+
+  Como "QA" da API de músicas
+  Quero realizar testes "end-to-end"
+  Para garantir a funcionalidade completa da API de músicas
+
 
   Contexto:
     Dado que a url base da API é "https://fooapi.com"
@@ -103,3 +111,78 @@ Funcionalidade: Songs API - Fábio
       | campo   | valor |
       | id      | "1"   |
 
+
+# 5.Criar música - POST /api/songs
+Cenário: Criar uma nova música
+  Quando eu enviar uma requisição `POST` para "/api/songs" com o seguinte corpo:
+    """json
+    {
+      "name": "foooName",
+      "artists": "fooArtist",
+      "isExplicit": true,
+      "durationMs": 175459,
+      "albumName": "FooAlbum",
+      "albumReleaseDate": "2024-04-12"
+    }
+    """
+  Então o código de status da resposta deve ser 201
+  E a resposta deve ser um objeto `JSON`
+  E o objeto deve ter os campos "id", "name", "artists", "isExplicit", "durationMs", "albumName" e "albumReleaseDate"
+  E a resposta deve ser um objeto com os seguintes valores:
+    | campo             | valor               |
+    | name              | foooName            |
+    | artists           | fooArtist           |
+    | isExplicit        | true                |
+    | durationMs        | 175459              |
+    | albumName         | FooAlbum            |
+    | albumReleaseDate  | 2024-04-12          |
+
+
+# 6. Atualizar campos parciais - PATCH /api/songs/{id}
+Cenário: Atualizar campos parciais de uma música existente
+  Quando eu enviar uma requisição `PATCH` para "/api/songs/1" com o seguinte corpo:
+    """json
+    {
+      "name": "fabio"
+    }
+    """
+  Então o código de status da resposta deve ser 201
+  E a resposta deve ser um objeto `JSON`
+  E o objeto deve ter os campos "id", "name", "artists", "isExplicit", "durationMs", "albumName" e "albumReleaseDate"
+  E a resposta deve ser um objeto com os seguintes valores:
+    | campo             | valor               |
+    | name              | fabio               |
+    | artists           | "Sabrina Carpenter" |
+    | isExplicit        | false               |
+    | durationMs        | 175459              |
+    | albumName         | Espresso            |
+    | albumReleaseDate  | 2024-04-12          |
+
+# 7. Endpoint para consultas GraphQL - /query
+Cenário: Buscar uma música via GraphQL
+  Quando eu enviar uma consulta `GraphQL` para "/query" com o seguinte corpo:
+    """graphql
+    query Songs {
+      song(id: "3") {
+        id
+        name
+        isExplicit
+      }
+    }
+    """
+  Então o código de status da resposta deve ser 200
+  E a resposta deve ser um objeto `JSON`
+  E o objeto deve ter o campo "data"
+  E dentro de "data" o campo "song" deve conter "id", "name" e "isExplicit"
+  E a resposta deve ser um objeto com os seguintes valores:
+  """json
+  {
+    "data": {
+      "song": {
+        "id": "3",
+        "name": "Houdini",
+        "isExplicit": false
+      }
+    }
+  }
+  """
