@@ -5,7 +5,6 @@ from pytest_bdd import scenarios, given, when, then, parsers
 # Carrega o arquivo de feature único
 scenarios("features/movies.feature")
 
-
 # Step comum: Dado o endpoint
 @given(parsers.cfparse('o endpoint: "{path}"'))
 def endpoint(path: str) -> str:
@@ -19,9 +18,7 @@ def extract_datas(response):
         return data["data"]
     return data
 
-# ============================================================
 # Caso 1: Listar todos os filmes (GET)
-# ============================================================
 @when(parsers.cfparse('realizar a requisição GET no: "{path}"'),
       target_fixture="response")
 def request_api(path: str):
