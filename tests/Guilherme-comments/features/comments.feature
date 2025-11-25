@@ -1,4 +1,4 @@
-Feature: comments-Guilherme
+Feature: comments API - Guilherme
 
   Verifica as operações de listar, consultar, criar, atualizar e excluir comentários
   utilizando o endpoint /comments da FooAPI.
