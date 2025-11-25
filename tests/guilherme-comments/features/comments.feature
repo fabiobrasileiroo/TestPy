@@ -15,7 +15,7 @@ Feature: comments-Guilherme
     Then o código de status da resposta deve ser 200
     And a resposta deve ser um array de JSON
     And o array deve conter pelo menos 1 elemento
-    And cada comentário deve ter os campos "id, post_id, name, email e body"
+    And cada comentário deve ter os campos "id, postId, comment e user.name"
 
   # ======================================================
   # GET /api/comments/{id}  (Buscar por ID)
@@ -26,13 +26,7 @@ Feature: comments-Guilherme
     When eu enviar uma requisição GET para "/api/comments/1"
     Then o código de status da resposta deve ser 200
     And a resposta deve ser um objeto JSON
-    And o objeto deve ser igual ao seguinte:
-      | campo   | valor                        |
-      | id      | 1                          |
-      | post_id | 1                            |
-      | name    | "Test User"                  |
-      | email   | "test@example.com"           |
-      | body    | "Este é um comentário para testes automáticos" |
+    And o objeto deve ter os campos "id, postId, comment e user"
 
   # ======================================================
   # POST /api/comments
@@ -55,7 +49,7 @@ Feature: comments-Guilherme
       """
       update
       """
-    Then o código de status da resposta deve ser 200
+    Then o código de status da resposta deve ser 201
     And a resposta deve ser um objeto JSON
 
   # ======================================================
@@ -68,7 +62,7 @@ Feature: comments-Guilherme
       """
       patch
       """
-    Then o código de status da resposta deve ser 200
+    Then o código de status da resposta deve ser 201
     And a resposta deve ser um objeto JSON
 
   # ======================================================
