@@ -21,14 +21,14 @@ Feature: comments-Guilherme
   # GET /comments/{id}  (Buscar por ID)
   # ======================================================
   Scenario: Buscar um comentário específico por ID
-    Given que existe um comentário com id "123"
-    And que o comentário "123" está configurado na base de dados
-    When eu enviar uma requisição GET para "/comments/123"
+    Given que existe um comentário com id "1"
+    And que o comentário "1" está configurado na base de dados
+    When eu enviar uma requisição GET para "/comments/1"
     Then o código de status da resposta deve ser 200
     And a resposta deve ser um objeto JSON
     And o objeto deve ser igual ao seguinte:
       | campo   | valor                        |
-      | id      | 123                          |
+      | id      | 1                          |
       | post_id | 1                            |
       | name    | "Test User"                  |
       | email   | "test@example.com"           |
@@ -49,9 +49,9 @@ Feature: comments-Guilherme
   # PUT /comments/{id}
   # ======================================================
   Scenario: Atualizar completamente um comentário via PUT
-    Given que existe um comentário com id "789"
-    And que o comentário "789" está configurado na base de dados
-    When eu enviar uma requisição PUT para "/comments/789" com o seguinte corpo:
+    Given que existe um comentário com id "1"
+    And que o comentário "1" está configurado na base de dados
+    When eu enviar uma requisição PUT para "/comments/1" com o seguinte corpo:
       """
       update
       """
@@ -62,9 +62,9 @@ Feature: comments-Guilherme
   # PATCH /comments/{id}
   # ======================================================
   Scenario: Atualizar parcialmente um comentário via PATCH
-    Given que existe um comentário com id "456"
-    And que o comentário "456" está configurado na base de dados
-    When eu enviar uma requisição PATCH para "/comments/456" com o seguinte corpo:
+    Given que existe um comentário com id "1"
+    And que o comentário "1" está configurado na base de dados
+    When eu enviar uma requisição PATCH para "/comments/1" com o seguinte corpo:
       """
       patch
       """
@@ -75,7 +75,7 @@ Feature: comments-Guilherme
   # DELETE /comments/{id}
   # ======================================================
   Scenario: Excluir um comentário por ID
-    Given que existe um comentário com id "999"
-    And que o comentário "999" está configurado na base de dados
-    When eu enviar uma requisição DELETE para "/comments/999"
+    Given que existe um comentário com id "1"
+    And que o comentário "1" está configurado na base de dados
+    When eu enviar uma requisição DELETE para "/comments/1"
     Then o código de status da resposta deve ser 200
