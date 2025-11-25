@@ -3,10 +3,6 @@ from pytest_bdd import scenarios, given, parsers, when, then
 
 scenarios("features/cities.feature")
 
-# ====================================================
-# GIVEN Steps (Configuração)
-# ====================================================
-
 @given(parsers.cfparse('que a url base da API é "{base_url}"'), target_fixture="base_url")
 def base_url(base_url: str) -> str:
     return base_url
@@ -36,10 +32,6 @@ def setup_city_for_tests(base_url: str, path: str, city_id: str):
     if resp.status_code not in [201, 200, 409]:
          print(f"Alerta: Falha ao configurar a cidade {city_id} para teste. Status: {resp.status_code}")
 
-
-# ====================================================
-# WHEN Steps (Ações)
-# ====================================================
 
 @when(parsers.cfparse('eu enviar uma requisição `GET` para "{path}"'), target_fixture="response")
 def send_get_request(base_url: str, path: str):
@@ -88,10 +80,6 @@ def send_delete_request(base_url: str, path: str, city_id: str):
     resp = requests.delete(url)
     return resp
 
-# ====================================================
-# Funções Auxiliares (Robustas contra erros de JSON)
-# ====================================================
-
 def _extract_list_from_response(response):
     try:
         data = response.json()
@@ -133,10 +121,6 @@ def _datatable_to_dict(datatable):
                 row_dict[header] = row[i]
         result.append(row_dict)
     return result
-
-# ====================================================
-# THEN Steps (Verificações)
-# ====================================================
 
 @then(parsers.cfparse('o código de status da resposta deve ser {status_code:d}'))
 def check_status_code_response(status_code: int, response):

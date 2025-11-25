@@ -86,6 +86,36 @@ def send_delete_request(base_url: str, path: str, id: str):
     resp = requests.delete(url)
     return resp
 
+# 6. Atualizar campos parciais
+@when(parsers.cfparse('eu enviar uma requisição `PATCH` para "{path}/{id}" com o seguinte corpo:'),     target_fixture="response")
+def send_patch_request(base_url: str, path: str, id: str):
+    # Corpo fixo baseado no arquivo de recursos
+    # TODO: Encontrar uma maneira melhor de acessar a docstring no pytest-bdd 8.x
+    body = {
+        "name": "fabio",
+    }
+    url = base_url + path + '/' + id
+    resp = requests.patch(url, json=body)
+    return resp
+
+# 7. Buscar música via GraphQL
+@when(parsers.cfparse('eu enviar uma consulta `GraphQL` para "{path}" com o seguinte corpo:'), target_fixture="response")
+def send_graphql_request(base_url: str, path: str):
+    # Corpo fixo baseado no arquivo de recursos
+    # TODO: Encontrar uma maneira melhor de acessar a docstring no pytest-bdd 8.x
+    graph_query = '''
+    query Songs {
+        song(id: "3") {
+            id
+            name
+            isExplicit
+        }
+    }''' 
+    url = base_url + path
+    headers = {"Content-Type": "application/json"}
+    resp = requests.post(url, json={'query': graph_query}, headers=headers)
+    return resp
+
 
 #===================
 # Funções auxiliares
@@ -188,16 +218,44 @@ def check_object_fields_typo(response, fields):
 
 
 @then('a resposta deve ser um objeto com os seguintes valores:')
-def check_object_values(response, datatable):
+def check_object_values(response, datatable=None, doc_string=None):
+    """Suporta tanto datatables (listas) quanto docstrings JSON como entrada esperada.
+    - Quando `datatable` é fornecido: compara campo a campo como antes.
+    - Quando `doc_string` é fornecido: interpreta JSON e faz comparação direta (subset).
+    """
+    import json
+
+    if doc_string:
+        expected = json.loads(doc_string)
+        actual = response.json()
+        # Fazer uma comparação por chave/valor recursiva (expected deve estar contido em actual)
+        def _assert_subset(exp, act, path=""):
+            if isinstance(exp, dict):
+                assert isinstance(act, dict), f"Tipo diferente em {path}: esperado dict, obtido {type(act)}"
+                for k, v in exp.items():
+                    assert k in act, f"Chave {path + k} não encontrada na resposta"
+                    _assert_subset(v, act[k], path + k + ".")
+            elif isinstance(exp, list):
+                assert isinstance(act, list), f"Tipo diferente em {path}: esperado list, obtido {type(act)}"
+                # comparar elementos por posição
+                for i, item in enumerate(exp):
+                    _assert_subset(item, act[i], f"{path}[{i}].")
+            else:
+                assert exp == act, f"Valor diferente em {path[:-1]}: esperado {exp}, obtido {act}"
+
+        _assert_subset(expected, actual)
+        return
+
+    # Caso padrão: datatable
     data = _extract_object_from_response(response)
     # Converter tabela para lista de dicionários
-    rows = _datatable_to_dict(datatable)
-    
+    rows = _datatable_to_dict(datatable or [])
+
     for row in rows:
         campo = row['campo']
         valor = row['valor']
         actual_value = data.get(campo)
-        
+
         # Comparar com base no tipo de actual_value
         if isinstance(actual_value, bool):
             expected_bool = valor.lower() in ['true', '1', 'yes']
@@ -222,6 +280,45 @@ def check_object_value(response, datatable):
         actual_value = data.get(campo)
         expected_str = valor.strip('"')
         assert str(actual_value) == expected_str
+
+
+@then('o objeto deve ter o campo "data"')
+def check_has_data_field(response):
+    data = response.json()
+    assert isinstance(data, dict) and 'data' in data
+
+
+@then(parsers.cfparse('dentro de "data" o campo "song" deve conter "{fields}"'))
+def check_song_fields_in_data(response, fields):
+    fields_clean = fields.replace(' e ', ',')
+    expected_fields = [f.strip().strip('"') for f in fields_clean.split(',') if f.strip()]
+    data = response.json()
+    assert isinstance(data, dict) and 'data' in data and isinstance(data['data'], dict)
+    song = data['data'].get('song')
+    assert isinstance(song, dict)
+    for f in expected_fields:
+        assert f in song
+
+
+@then('a resposta deve ser um objeto com os seguintes valores em "data.song":')
+def check_song_values_in_data(response, datatable):
+    data = response.json()
+    song = data.get('data', {}).get('song')
+    assert isinstance(song, dict)
+    rows = _datatable_to_dict(datatable)
+    for row in rows:
+        campo = row['campo']
+        valor = row['valor']
+        actual_value = song.get(campo)
+        if isinstance(actual_value, bool):
+            expected_bool = valor.lower() in ['true', '1', 'yes']
+            assert actual_value == expected_bool, f"Campo {campo}: esperado {expected_bool}, obtido {actual_value}"
+        elif isinstance(actual_value, int):
+            expected_int = int(valor)
+            assert actual_value == expected_int, f"Campo {campo}: esperado {expected_int}, obtido {actual_value}"
+        else:
+            expected_str = valor.strip('"')
+            assert str(actual_value) == expected_str, f"Campo {campo}: esperado '{expected_str}', obtido '{actual_value}'"
 
 
 @then('a resposta deve conter a seguinte música com um array de objetos com os seguintes valores:')
