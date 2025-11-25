@@ -1,29 +1,29 @@
 Feature: comments-Guilherme
 
   Verifica as operações de listar, consultar, criar, atualizar e excluir comentários
-  utilizando o endpoint /comments da FooAPI.
+  utilizando o endpoint /api/comments da FooAPI.
 
   Background:
     Given que a url base da API é "https://fooapi.com"
-    And que o endpoint para comments é "/comments"
+    And que o endpoint para comments é "/api/comments"
 
   # ======================================================
-  # GET /comments  (Listar todos)
+  # GET /api/comments  (Listar todos)
   # ======================================================
   Scenario: Listar todos os comentários
-    When eu enviar uma requisição GET para "/comments"
+    When eu enviar uma requisição GET para "/api/comments"
     Then o código de status da resposta deve ser 200
     And a resposta deve ser um array de JSON
     And o array deve conter pelo menos 1 elemento
     And cada comentário deve ter os campos "id, post_id, name, email e body"
 
   # ======================================================
-  # GET /comments/{id}  (Buscar por ID)
+  # GET /api/comments/{id}  (Buscar por ID)
   # ======================================================
   Scenario: Buscar um comentário específico por ID
     Given que existe um comentário com id "1"
     And que o comentário "1" está configurado na base de dados
-    When eu enviar uma requisição GET para "/comments/1"
+    When eu enviar uma requisição GET para "/api/comments/1"
     Then o código de status da resposta deve ser 200
     And a resposta deve ser um objeto JSON
     And o objeto deve ser igual ao seguinte:
@@ -35,10 +35,10 @@ Feature: comments-Guilherme
       | body    | "Este é um comentário para testes automáticos" |
 
   # ======================================================
-  # POST /comments
+  # POST /api/comments
   # ======================================================
   Scenario: Criar um novo comentário
-    When eu enviar uma requisição POST para "/comments" com o seguinte corpo:
+    When eu enviar uma requisição POST para "/api/comments" com o seguinte corpo:
       """
       id="FOO-CMT"
       """
@@ -46,12 +46,12 @@ Feature: comments-Guilherme
     And a resposta deve ser um objeto JSON
 
   # ======================================================
-  # PUT /comments/{id}
+  # PUT /api/comments/{id}
   # ======================================================
   Scenario: Atualizar completamente um comentário via PUT
     Given que existe um comentário com id "1"
     And que o comentário "1" está configurado na base de dados
-    When eu enviar uma requisição PUT para "/comments/1" com o seguinte corpo:
+    When eu enviar uma requisição PUT para "/api/comments/1" com o seguinte corpo:
       """
       update
       """
@@ -59,12 +59,12 @@ Feature: comments-Guilherme
     And a resposta deve ser um objeto JSON
 
   # ======================================================
-  # PATCH /comments/{id}
+  # PATCH /api/comments/{id}
   # ======================================================
   Scenario: Atualizar parcialmente um comentário via PATCH
     Given que existe um comentário com id "1"
     And que o comentário "1" está configurado na base de dados
-    When eu enviar uma requisição PATCH para "/comments/1" com o seguinte corpo:
+    When eu enviar uma requisição PATCH para "/api/comments/1" com o seguinte corpo:
       """
       patch
       """
@@ -72,10 +72,10 @@ Feature: comments-Guilherme
     And a resposta deve ser um objeto JSON
 
   # ======================================================
-  # DELETE /comments/{id}
+  # DELETE /api/comments/{id}
   # ======================================================
   Scenario: Excluir um comentário por ID
     Given que existe um comentário com id "1"
     And que o comentário "1" está configurado na base de dados
-    When eu enviar uma requisição DELETE para "/comments/1"
+    When eu enviar uma requisição DELETE para "/api/comments/1"
     Then o código de status da resposta deve ser 200
