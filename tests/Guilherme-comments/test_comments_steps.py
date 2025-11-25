@@ -54,7 +54,7 @@ def send_post(base_url, path):
 
     body = {
         "id": "FOO-CMT",
-        "post_id": "999",
+        "post_id": "1",
         "name": "Foo User",
         "email": "foo@example.com",
         "body": "Comentário gerado automaticamente para testes"
@@ -67,7 +67,7 @@ def send_put(base_url, path, comment_id):
 
     body = {
         "id": comment_id,
-        "post_id": "999",
+        "post_id": "1",
         "name": "Usuário Alterado",
         "email": "update@example.com",
         "body": "Comentário atualizado via PUT"
